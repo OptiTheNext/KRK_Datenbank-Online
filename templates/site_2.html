@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block Unterschrift %}
+<p>Charite zu Berlin, 2010-2021</p>
+{%endblock%} {% block MainContent %}
+<h3> Dateneingabe</h3>
+<form action ="" method = "post" autocomplete="off">
+	<div class="row" style="border: 1px solid black" ;>
+		<div class="col-sm" style="border: 1px solid black" ;>
+			<h3>Stammdaten</h3>
+			<div class="form-group">
+				<label>SAP ID</label>
+      <input class="form-control" type="int" name="sapid" value="{%if success %}{%else%}{{ request.form.sapid }}{%endif%}">
+      </div>
+      <br>
+      <div class="form-group">
+      <label>Geburtsdatum</label>
+      <input class="form-control" type="text" name="geburt" value="{%if success%}{%else%}{{ request.form.geburt }}{%endif%}">
+      </div>
+      <br>
+      <div class="form-group">
+      <label>Geschlecht</label>
+      <select class="form-control" name="geschlecht">
+          <option value="Männlich">Männlich</option>
+          <option value="Weiblich">Weiblich</option>
+          <option value="Divers">Divers</option>
+      </select>
+      </div>
+      <br>
+    </div>
+    <div class="col-sm" style="border: 1px solid black";>
+      <p>ersatztext</p>
+    </div>
+    <div class="col-sm" style="border: 1px solid black";>
+      <p>ersatztext</p>
+    </div>
+  </div>
+  <input type="submit" value="Schreiben">
+  <input type="reset"> 
+</form>
+{% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Fehler:</strong> {{ error }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  {%if overwrite %}
+    <input type="submit" value="ueberschreiben">
+  {% endif %}
+{% endif %}
+{% if success %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Erfolg:</strong> {{success}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{%endif%}
+{%endblock%}
