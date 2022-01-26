@@ -44,6 +44,26 @@ def page_1():
     else:
       return flask.redirect(flask.url_for('login'))
 
+@app.route("/dateneingabe",methods=["POST"])
+def GetData():
+    IDToFind = flask.request.form["sapidimport"]
+    if IDToFind.isnumeric():
+      cursor = mydb.cursor()
+      cursor.execute("SELECT * FROM KRK_Tabelle WHERE SAPID = %(sapid)s", {'sapid': IDToFind})
+      myresult = cursor.fetchone()
+      if myresult is None:
+        # Wenn SAP ID nicht in Datenbnak
+        return flask.render_template('site_2.html',Topnav = True, startseite= False, error ="SAP ID nicht gefunden")
+      
+      print(myresult)
+      import_var = {
+        'sapid': myresult[0],
+        'geschlecht': myresult[1],
+        'geburt': datetime.datetime.strftime(myresult[2],"%d.%m.%Y")
+      }
+      print(import_var)
+      return flask.render_template('site_2.html',Topnav = True, startseite= False, import_var = import_var)
+
 @app.route("/dateneingabe",methods=["POST","GET"])
 def input():
   if("username" not in flask.session):

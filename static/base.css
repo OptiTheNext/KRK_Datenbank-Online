@@ -1,14 +1,7 @@
 body {
   font-family: Arial;
-  padding: 10px;
-  background: #f1f1f1;
-}
-
-/* Header/Blog Title */
-.header {
   padding: 30px;
-  text-align: center;
-  background: white;
+  background: #f1f1f1;
 }
 
 .header h1 {
@@ -19,6 +12,9 @@ body {
 .topnav {
   overflow: hidden;
   background-color: #333;
+  position: relative;
+  bottom: 0;
+  width: 100;
 }
 
 /* Style the topnav links */
@@ -56,4 +52,17 @@ body {
     float: none;
     width: 100%;
   }
+}
+
+#header {
+    display: block;
+    position: relative;
+    background: url('/static/charite_banner.jpg') 50% 0 no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 0px;
+    text-align: center;
+    box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.719);
 }

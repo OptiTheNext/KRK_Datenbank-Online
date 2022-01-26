@@ -3,22 +3,22 @@
 {%endblock%} {% block MainContent %}
 <h3> Dateneingabe</h3>
 <form action ="" method = "post" autocomplete="off">
-	<div class="row" style="border: 1px solid black" ;>
-		<div class="col-sm" style="border: 1px solid black" ;>
+	<div class="row" style="border: 1px solid black; padding = 10p;" ;>
+		<div class="col-sm" style="border: 1px solid ,padding = 10p;" ;>
 			<h3>Stammdaten</h3>
 			<div class="form-group">
 				<label>SAP ID</label>
-      <input class="form-control" type="int" name="sapid" value="{%if success %}{%else%}{{ request.form.sapid }}{%endif%}">
+      <input class="form-control" type="int" name="sapid" value="{%if success%}{{""}}{%elif import_var%}{{import_var.sapid}}{%else%}{{ request.form.sapid }}{%endif%}">
       </div>
       <br>
       <div class="form-group">
       <label>Geburtsdatum</label>
-      <input class="form-control" type="text" name="geburt" value="{%if success%}{%else%}{{ request.form.geburt }}{%endif%}">
+      <input class="form-control" type="text" name="geburt" value="{%if success%}{{""}}{%elif import_var%}{{import_var.geburt}} {%else%}{{ request.form.geburt }}{%endif%}">
       </div>
       <br>
       <div class="form-group">
       <label>Geschlecht</label>
-      <select class="form-control" name="geschlecht">
+      <select class="form-control" name="geschlecht" selected="{%if success%}{{""}}{%elif import_var%}{{import_var.geschlecht}} {%else%}{{ request.form.geschlecht }}{%endif%}">
           <option value="Männlich">Männlich</option>
           <option value="Weiblich">Weiblich</option>
           <option value="Divers">Divers</option>
@@ -34,7 +34,7 @@
     </div>
   </div>
   <input type="submit" value="Schreiben">
-  <input type="reset"> 
+  <input type="reset">
 </form>
 {% if error %}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -55,4 +55,9 @@
   </button>
 </div>
 {%endif%}
+ <form class="form-inline" method="post">
+  <label for="sapidimport">Patientendaten importieren:</label>
+  <input type="text" id="sapidimport" name="sapidimport" placeholder="SAP ID" name="SAPID importieren">
+  <button type="submit">Importieren</button>
+</form> 
 {%endblock%}
