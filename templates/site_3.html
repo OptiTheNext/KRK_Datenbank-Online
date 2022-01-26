@@ -1,72 +1,86 @@
+
+
 {% extends "base.html" %}
 {% block Unterschrift %}
-  <p>Charite zu Berlin, 2010-2021</p>
+<p>Charite zu Berlin, 2010-2021</p>
 {%endblock%}
-
-
 {% block MainContent %}
-   <h3> Datenausgabe</h3>
+<h3> Datenausgabe</h3>
 <form action ="" method = "post" autocomplete="off">
-	<div class="row" style="border: 1px solid black; padding = 10p;" ;>
-		<div class="col-sm" style="border: 1px solid ,padding = 10p;" ;>
-			<h3>Stammdaten</h3>
-			<div class="form-group">
-				<label>SAP ID</label>
-        <input type="checkbox" id="sapcheck" name="sapcheck" value="sapcheck">
-      <input class="form-control" type="int" name="sapid" value="{%if success%}{{""}}{%elif import_var%}{{import_var.sapid}}{%else%}{{ request.form.sapid }}{%endif%}">
+  <div class="row" style="border: 1px solid black; padding = 10p;" ;>
+    <div class="col-sm" style="border: 1px solid ,padding = 10p;" ;>
+      <h3>Stammdaten</h3>
+      <div class="form-group">
+        <label>SAP ID</label>
+        <input class="form-check-input" type="checkbox" id="sapcheck" name="sapcheck" value="1" onchange="showInputField('sapcheck','sapfield')">
+        <span id="sapfield" class='hidden-on-default' style="display:none;">
+        <input class="form-control" type="int" name="sapid" value="{%if success%}{{""}}{{ request.form.sapid }}{%endif%}">
+        </span>
       </div>
       <br>
       <div class="form-group">
-      <label>Geburtsdatum</label>
-      <input type="checkbox" id="geburtcheck" name="geburtcheck" value="geburtcheck">
-      <input class="form-control" type="text" name="geburt" value="{%if success%}{{""}}{%elif import_var%}{{import_var.geburt}} {%else%}{{ request.form.geburt }}{%endif%}">
+        <label>Geburtsdatum</label>
+        <input class="form-check-input" type="checkbox" id="geburtcheck" name="geburtcheck" value="1" onchange="showInputField('geburtcheck','geburtfield')">
+        <br>
+        <span id="geburtfield" class='hidden-on-default' style="display:none;">
+        <label class="form-labels">Von</label>
+        <input class="form-control" type="text" name="von_geburt" value="{%if success%}{{""}}{%else%}{{ request.form.geburt }}{%endif%}">
+        <label class="form-labels">Bis</label>
+        <input class="form-control" type="text" name="bis_geburt" value="{%if success%}{{""}} {%else%}{{ request.form.geburt }}{%endif%}">
+        </span>
       </div>
       <br>
       <div class="form-group">
-      <label>Geschlecht</label>
-      <input type="checkbox" id="geschlechtcheck" name="geschlechtcheck" value="geschlechtcheck">
-      <select class="form-control" name="geschlecht" selected="{%if success%}{{""}}{%elif import_var%}{{import_var.geschlecht}} {%else%}{{ request.form.geschlecht }}{%endif%}">
-          <option value="Männlich">Männlich</option>
-          <option value="Weiblich">Weiblich</option>
-          <option value="Divers">Divers</option>
-      </select>
+        <label class="form-check-label">Geschlecht</label>
+        <input class="form-check-input" type="checkbox" id="sexcheck" name="sexcheck" value="1" onchange="showInputField('sexcheck','sexfield')">
+        <br>
+        <span id="sexfield" class='hidden-on-default' style="display:none;">
+        <input class="form-check-input" type="checkbox" value ="Männlich" name = "männlichcheck" id="checkMale">
+        <label for="checkMale">Männlich</label>
+        <input class="form-check-input" type="checkbox" value="Weiblich" name ="weiblichcheck" id="checkFemale">
+        <label for="checkFemale">Weiblich</label>
+        <input class="form-check-input" type="checkbox" value="Divers" name="diverscheck" id="checkDiv">
+        <label for="checkDiv">Divers</label>
+        </span>
       </div>
       <br>
     </div>
-    <div class="col-sm" style="border: 1px solid black";>
-      <p>Datenausgabe</p>
+    <div class="overflow-auto col-sm" style="border: 1px solid black; height = 80%; width = 50%">
+      <h3>Datenausgabe</h3>
+      {%if htmltext%}{{htmltext}}
+      {%endif%}
+      {%if htmltext%}
+      <div class="form-group">
+        <input class="btn btn-primary" value="Exportieren" name="export" onclick="location.href='{{url_for('export_to_csv')}}';">
+      </div>
+      {%endif%}
     </div>
   </div>
-  <input type="submit" value="Daten ausgeben">
-  <input type="reset">
+  <input class="btn btn-secondary" type="submit" value="Daten ausgeben" name = "datenausgabe">
+  <input class="btn btn-secondary" type="reset">
 </form>
 {% if error %}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
   <strong>Fehler:</strong> {{ error }}
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
+  <span aria-hidden="true">&times;</span> 
   </button>
 </div>
-  {%if overwrite %}
-    <input type="submit" value="ueberschreiben">
-  {% endif %}
+{%if overwrite %}
+<input class="btn btn-secondary" type="submit" value="ueberschreiben">
+{% endif %}
 {% endif %}
 {% if success %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
   <strong>Erfolg:</strong> {{success}}
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
+  <span aria-hidden="true">&times;</span>
   </button>
 </div>
 {%endif%}
- <form class="form-inline" method="post">
+<form class="form-inline" method="post">
   <label for="sapidimport">Daten analysiere</label>
-  <button type="submit">Analysieren</button>
-</form> 
+  <button class="btn btn-secondary" type="submit" name = "analysebutton">Analysieren</button>
+</form>
 {%endblock%}
-
-  
-
-
-
 
