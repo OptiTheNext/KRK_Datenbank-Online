@@ -33,7 +33,7 @@
       <p>ersatztext</p>
     </div>
   </div>
-  <input type="submit" value="Schreiben">
+  <input type="submit" value="Schreiben" onclick = "input()">
   <input type="reset">
 </form>
 {% if error %}
@@ -58,6 +58,6 @@
  <form class="form-inline" method="post">
   <label for="sapidimport">Patientendaten importieren:</label>
   <input type="text" id="sapidimport" name="sapidimport" placeholder="SAP ID" name="SAPID importieren">
-  <button type="submit">Importieren</button>
+  <button type="submit" onclick = "GetData()">Importieren</button>
 </form> 
 {%endblock%}

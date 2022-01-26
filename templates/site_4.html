@@ -4,9 +4,46 @@
 {%endblock%}
 
 
+
 {% block MainContent %}
+  <style>
+    .grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    
+    padding: 10px;
+    }
+    .grid-item {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      font-size: 12px;
+      text-align: "left"
+    }
+  </style>
    <h3> Datenanalyse</h3>
-{%endblock%}
+    <form action ="" method = "post" autocomplete="off">
+      <div class="grid-container">
+        <div class="grid-item">
+          <p>Platzhalter Quantitative Eingabe</p>
+          
+        </div>
+        <div class="grid-item">
+          <p>Platzhalter Ausgabe Quantitative Eingabe</p>
+        </div>
+        <div class="grid-item">Platzhalter Qualitative Eingabe</div>
+        <div class="grid-item">
+          Platzhalter Ausgabe Quantitative Eingabe
+        </div>
+      </div>
+
+      <input type="submit" value="Analyse">
+    </form>
+
+  {%endblock%}
+
+  
+
 
 
 

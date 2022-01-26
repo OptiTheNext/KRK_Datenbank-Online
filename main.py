@@ -3,6 +3,7 @@ import random
 import mysql.connector
 import datetime
 import Columns
+import os
 
 #Debugging
 import traceback
@@ -15,26 +16,60 @@ app = flask.Flask(__name__,
                   static_folder="static")
 app.secret_key = "VocUqjQUlO"
 
- 
+#Workaround für ältere Browser
+@app.route('/favicon.ico')
+def favicon():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+@app.route('/android-chrome-192x192.png')
+def favicon_chrome_192():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static'),
+                               'android-chrome-192x192.png')
+@app.route('/android-chrome-256x256.png')
+def favicon_chrome_256():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static'),
+                               'android-chrome-256x256.png')
+@app.route('/browserconfig.xml')
+def favicon_browserconfig():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static'),
+                               'browserconfig.xml')
+@app.route('/apple-touch-icon.png')
+def favicon_apple_touch():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static'),
+                               'apple-touch-icon.png')
+@app.route('/mstile-150x150.png')
+def favicon_mstile():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static'),
+                               'mstile-150x150.png')
+@app.route('/safari-pinned-tab.svg')
+def favicon_safari_pinned():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static'),
+                               'safari-pinned-tab.svg')
+@app.route('/site.webmanifest')
+def favicon_webmanifest():
+    return flask.send_from_directory(os.path.join(app.root_path, 'static'),
+                               'site.webmanifest')
+
+
 
 @app.route('/', methods=['POST', 'GET'])
 def login():
-    error = ''
-    if flask.request.method == 'POST':
-        username = flask.request.form['username']
-        pwd = flask.request.form['password']
-        try:
-          global mydb
-          mydb = mysql.connector.connect(
-          host="fogg.sglorch.de",
-          user=username,
-          password=pwd,
-          database="hannes")
-          flask.session["username"] = username
-          return flask.redirect(flask.url_for('page_1'))
-        except:
-            error = 'Invalid Credentials. Please try again.'    
-    return flask.render_template("login.html", error=error)
+  error = ''
+  if flask.request.method == 'POST':
+      username = flask.request.form['username']
+      pwd = flask.request.form['password']
+      try:
+        global mydb
+        mydb = mysql.connector.connect(
+        host="fogg.sglorch.de",
+        user=username,
+        password=pwd,
+        database="hannes")
+        flask.session["username"] = username
+        return flask.redirect(flask.url_for('page_1'))
+      except:
+          error = 'Invalid Credentials. Please try again.'    
+  return flask.render_template("login.html", error=error)
 
 
 @app.route("/startseite")
