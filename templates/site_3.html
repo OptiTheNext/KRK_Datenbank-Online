@@ -1,65 +1,66 @@
+
+
 {% extends "base.html" %} {% block Unterschrift %}
 <p>Charite zu Berlin, 2010-2021</p>
 {%endblock%} {% block MainContent %}
-<h3> Datenausgabe</h3>
+<h3>Datenausgabe</h3>
 <form action="" method="post" autocomplete="off">
-	<div class="row" style="border: 1px solid black; padding = 10p;" ;>
-		<div class="container">
-			<div class="row-cols-1 row-cols-lg-2"">
-				<div class="col-6" style="border: 1px solid ,padding = 10p;">
-          <div class="p-3 border bg-light shadow-sm overflow-auto" style="height:400px;">
-					<h3>Stammdaten</h3>
-					<div class="form-group">
-						<label>SAP ID</label>
-        <input class="form-check-input" type="checkbox" id="sapcheck" name="sapcheck" value="1" onchange="showInputField('sapcheck','sapfield')">
-        <span id="sapfield" class='hidden-on-default' style="display:none;">
-        <input class="form-control" type="int" name="sapid" value="{%if success%}{{""}}{{ request.form.sapid }}{%endif%}">
-        </span>
-           </div>
-      <br>
-      <div class="form-group">
-        <label>Geburtsdatum</label>
-        <input class="form-check-input" type="checkbox" id="geburtcheck" name="geburtcheck" value="1" onchange="showInputField('geburtcheck','geburtfield')">
-        <br>
-        <span id="geburtfield" class='hidden-on-default' style="display:none;">
-        <label class="form-labels">Von</label>
-        <input class="form-control" type="text" name="von_geburt" value="{%if success%}{{""}}{%else%}{{ request.form.geburt }}{%endif%}">
-        <label class="form-labels">Bis</label>
-        <input class="form-control" type="text" name="bis_geburt" value="{%if success%}{{""}} {%else%}{{ request.form.geburt }}{%endif%}">
-        </span>
+  <div class="container" style="margin-left: 0">
+    <div class="row row-cols-1 row-cols-lg-2"">
+      <div class="col-6" style="border: 1px solid ,padding = 10px;">
+        <div class="p-3 border bg-light shadow-sm overflow-auto" style="height:400px;">
+          <h3>Stammdaten</h3>
+          <div class="form-group">
+            <label>SAP ID</label>
+            <input class="form-check-input" type="checkbox" id="sapcheck" name="sapcheck" value="1" onchange="showInputField('sapcheck','sapfield')">
+            <span id="sapfield" class='hidden-on-default' style="display:none;">
+            <input class="form-control" type="int" name="sapid" value="{%if success%}{{""}}{{ request.form.sapid }}{%endif%}">
+            </span>
+          </div>
+          <br>
+          <div class="form-group">
+            <label>Geburtsdatum</label>
+            <input class="form-check-input" type="checkbox" id="geburtcheck" name="geburtcheck" value="1" onchange="showInputField('geburtcheck','geburtfield')">
+            <br>
+            <span id="geburtfield" class='hidden-on-default' style="display:none;">
+            <label class="form-labels">Von</label>
+            <input class="form-control" type="text" name="von_geburt" value="{%if success%}{{""}}{%else%}{{ request.form.geburt }}{%endif%}">
+            <label class="form-labels">Bis</label>
+            <input class="form-control" type="text" name="bis_geburt" value="{%if success%}{{""}} {%else%}{{ request.form.geburt }}{%endif%}">
+            </span>
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="form-check-label">Geschlecht</label>
+            <input class="form-check-input" type="checkbox" id="sexcheck" name="sexcheck" value="1" onchange="showInputField('sexcheck','sexfield')">
+            <br>
+            <span id="sexfield" class='hidden-on-default' style="display:none;">
+            <input class="form-check-input" type="checkbox" value ="Männlich" name = "männlichcheck" id="checkMale">
+            <label for="checkMale">Männlich</label>
+            <input class="form-check-input" type="checkbox" value="Weiblich" name ="weiblichcheck" id="checkFemale">
+            <label for="checkFemale">Weiblich</label>
+            <input class="form-check-input" type="checkbox" value="Divers" name="diverscheck" id="checkDiv">
+            <label for="checkDiv">Divers</label>
+            </span>
+          </div>
+          <br>
+        </div>
       </div>
-      <br>
-      <div class="form-group">
-        <label class="form-check-label">Geschlecht</label>
-        <input class="form-check-input" type="checkbox" id="sexcheck" name="sexcheck" value="1" onchange="showInputField('sexcheck','sexfield')">
-        <br>
-        <span id="sexfield" class='hidden-on-default' style="display:none;">
-        <input class="form-check-input" type="checkbox" value ="Männlich" name = "männlichcheck" id="checkMale">
-        <label for="checkMale">Männlich</label>
-        <input class="form-check-input" type="checkbox" value="Weiblich" name ="weiblichcheck" id="checkFemale">
-        <label for="checkFemale">Weiblich</label>
-        <input class="form-check-input" type="checkbox" value="Divers" name="diverscheck" id="checkDiv">
-        <label for="checkDiv">Divers</label>
-        </span>
+      <div class="overflow-auto col-sm p-3 border bg-light shadow-sm" style="height:400px; width: 50%;">
+        <h3>Datenausgabe</h3>
+        {%if htmltext%}{{htmltext}}
+        {%endif%}
+        {%if htmltext%}
+        <div class="form-group">
+          <input class="btn btn-primary" value="Exportieren" name="export" onclick="location.href='{{url_for('export_to_csv')}}';">
+        </div>
+        {%endif%}
       </div>
-      <br>
     </div>
-    </div>
-			</div>
-      </div>
-    <div class="overflow-auto col-sm" style="border: 1px solid black; height = 80%; width = 50%">
-      <h3>Datenausgabe</h3>
-      {%if htmltext%}{{htmltext}}
-      {%endif%}
-      {%if htmltext%}
-      <div class="form-group">
-        <input class="btn btn-primary" value="Exportieren" name="export" onclick="location.href='{{url_for('export_to_csv')}}';">
-      </div>
-      {%endif%}
-    </div>
+    <hr>
+    <input class="btn btn-secondary" type="submit" value="Daten ausgeben" name = "datenausgabe">
+    <input class="btn btn-secondary" type="reset">
   </div>
-  <input class="btn btn-secondary" type="submit" value="Daten ausgeben" name = "datenausgabe">
-  <input class="btn btn-secondary" type="reset">
 </form>
 {% if error %}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">

@@ -103,156 +103,156 @@ def page_1():
 
 @app.route("/dateneingabe", methods=["POST", "GET"])
 def dateneingabe():
-  if not "username" in flask.session:
-    return flask.redirect(flask.url_for('login'))
-  
-  #Import von Daten
-  if "Import" in flask.request.form:
-      print("In Import")
-      IDToFind = flask.request.form["sapidimport"]
-      if IDToFind.isnumeric():
-          cursor = mydb.cursor()
-          cursor.execute("SELECT * FROM KRK_Tabelle WHERE SAPID = %(sapid)s",
-                          {'sapid': IDToFind})
-          myresult = cursor.fetchone()
-          if myresult is None:
-              # Wenn SAP ID nicht in Datenbnak
-              return flask.render_template('site_2.html',
-                                            Topnav=True,
-                                            startseite=False,
-                                            error="SAP ID nicht gefunden")
+    if not "username" in flask.session:
+        return flask.redirect(flask.url_for('login'))
 
-          print(myresult)
-          import_var = {
-              'sapid': myresult[0],
-              'geschlecht': myresult[1],
-              'geburt': datetime.datetime.strftime(myresult[2], "%d.%m.%Y")
-          }
-          print(import_var)
-          return flask.render_template('site_2.html',
-                                        Topnav=True,
-                                        startseite=False,
-                                        import_var=import_var)
+    #Import von Daten
+    if "Import" in flask.request.form:
+        print("In Import")
+        IDToFind = flask.request.form["sapidimport"]
+        if IDToFind.isnumeric():
+            cursor = mydb.cursor()
+            cursor.execute("SELECT * FROM KRK_Tabelle WHERE SAPID = %(sapid)s",
+                           {'sapid': IDToFind})
+            myresult = cursor.fetchone()
+            if myresult is None:
+                # Wenn SAP ID nicht in Datenbnak
+                return flask.render_template('site_2.html',
+                                             Topnav=True,
+                                             startseite=False,
+                                             error="SAP ID nicht gefunden")
 
-  #Schreiben von daten
-  if "Schreiben" in flask.request.form:
-      print("In Input")
-      if ("username" not in flask.session):
-          return flask.redirect(flask.url_for('login'))
+            print(myresult)
+            import_var = {
+                'sapid': myresult[0],
+                'geschlecht': myresult[1],
+                'geburt': datetime.datetime.strftime(myresult[2], "%d.%m.%Y")
+            }
+            print(import_var)
+            return flask.render_template('site_2.html',
+                                         Topnav=True,
+                                         startseite=False,
+                                         import_var=import_var)
 
-      if flask.request.method == 'POST':
-          #def reset(delete):
-          # if(delete == True):
-          #  if(Age != "" and SAPID != "" and sex != ""):
-          #   return flask.render_template('site_1.html',Topnav = True, startseite= True)
-          #  print("reset complete")
-          #def NotAllowed(texts, overwrite, resetpls):
-          # def ueberschreiben():
-          #  dt_string = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-          # val = (int(SAPID),sex,Age,dt_string,int(SAPID))
-          #mydb.cursor.execute(Columns.sql_update,val)
-          #mydb.commit()
-          #flask.render_template('site_2.html',Topnav = True, startseite= True)
+    #Schreiben von daten
+    if "Schreiben" in flask.request.form:
+        print("In Input")
+        if ("username" not in flask.session):
+            return flask.redirect(flask.url_for('login'))
 
-          #if(overwrite == True):
-          # reset(resetpls)
-          #Wie leeren wir jetzt das Form? Maybe einfach über einen reset-Knopf. Dann nur anzeigen, dass erfolgreich eingetragen wurde. dann drückt man halt den Reset Knopf. Der Knopf ist auch schon da.
-          # Wo ist der knopf? gerade kann ich die seite nicht anzeigen
+        if flask.request.method == 'POST':
+            #def reset(delete):
+            # if(delete == True):
+            #  if(Age != "" and SAPID != "" and sex != ""):
+            #   return flask.render_template('site_1.html',Topnav = True, startseite= True)
+            #  print("reset complete")
+            #def NotAllowed(texts, overwrite, resetpls):
+            # def ueberschreiben():
+            #  dt_string = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+            # val = (int(SAPID),sex,Age,dt_string,int(SAPID))
+            #mydb.cursor.execute(Columns.sql_update,val)
+            #mydb.commit()
+            #flask.render_template('site_2.html',Topnav = True, startseite= True)
 
-          Age = flask.request.form['geburt']
-          try:
-              Age = datetime.datetime.strptime(Age, "%d.%m.%Y")
-              if (Age > datetime.datetime.now()):
-                  return flask.render_template('site_2.html',
-                                                Topnav=True,
-                                                startseite=False,
-                                                error="Datum überprüfen")
-          except:
-              #NotAllowed("Datum überprüfen", False,False)
-              return flask.render_template('site_2.html',
-                                            Topnav=True,
-                                            startseite=False,
-                                            error="Datumsformat falsch")
+            #if(overwrite == True):
+            # reset(resetpls)
+            #Wie leeren wir jetzt das Form? Maybe einfach über einen reset-Knopf. Dann nur anzeigen, dass erfolgreich eingetragen wurde. dann drückt man halt den Reset Knopf. Der Knopf ist auch schon da.
+            # Wo ist der knopf? gerade kann ich die seite nicht anzeigen
 
-          sex = flask.request.form['geschlecht']
-          SAPID = SAPID = flask.request.form['sapid']
+            Age = flask.request.form['geburt']
+            try:
+                Age = datetime.datetime.strptime(Age, "%d.%m.%Y")
+                if (Age > datetime.datetime.now()):
+                    return flask.render_template('site_2.html',
+                                                 Topnav=True,
+                                                 startseite=False,
+                                                 error="Datum überprüfen")
+            except:
+                #NotAllowed("Datum überprüfen", False,False)
+                return flask.render_template('site_2.html',
+                                             Topnav=True,
+                                             startseite=False,
+                                             error="Datumsformat falsch")
 
-          if (SAPID.isnumeric()):
-              numbers = [int(SAPID)]
-          else:
-              #NotAllowed("SAPID falsch",False,False)
+            sex = flask.request.form['geschlecht']
+            SAPID = SAPID = flask.request.form['sapid']
 
-              return flask.render_template('site_2.html',
-                                            Topnav=True,
-                                            startseite=False,
-                                            error="SAP ID ist keine Zahl")
+            if (SAPID.isnumeric()):
+                numbers = [int(SAPID)]
+            else:
+                #NotAllowed("SAPID falsch",False,False)
 
-          if (sex == "" or SAPID == "" or Age == ""):
-              #NotAllowed("Eingabe inkomplett",False,False)
-              return flask.render_template('site_2.html',
-                                            Topnav=True,
-                                            startseite=False,
-                                            error="Eingabe einkomplett")
-              #Check if SAPID already in system
+                return flask.render_template('site_2.html',
+                                             Topnav=True,
+                                             startseite=False,
+                                             error="SAP ID ist keine Zahl")
 
-          cursor = mydb.cursor()
-          cursor.execute(querySAPID)
-          sid = cursor.fetchall()
-          print(sid)
+            if (sex == "" or SAPID == "" or Age == ""):
+                #NotAllowed("Eingabe inkomplett",False,False)
+                return flask.render_template('site_2.html',
+                                             Topnav=True,
+                                             startseite=False,
+                                             error="Eingabe einkomplett")
+                #Check if SAPID already in system
 
-          for ids in sid:
-              print(ids)
-              if ids == (int(SAPID), ):
-                  try:
-                      dt_string = datetime.datetime.now().strftime(
-                          "%Y/%m/%d %H:%M:%S")
-                      val = (int(SAPID), sex, Age, dt_string, int(SAPID))
-                      cursor.execute(Columns.sql_update, val)
-                      mydb.commit()
-                      return flask.render_template(
-                          'site_2.html',
-                          Topnav=True,
-                          startseite=False,
-                          success="Daten überschrieben")
-                  except:
-                      return flask.render_template(
-                          'site_2.html',
-                          Topnav=True,
-                          startseite=False,
-                          error="Konnte nicht in Datenbank geschrieben werden"
-                      )
+            cursor = mydb.cursor()
+            cursor.execute(querySAPID)
+            sid = cursor.fetchall()
+            print(sid)
 
-          #Insert the new data into the SQL Database
-          try:
-              dt_string = datetime.datetime.now().strftime(
-                  "%Y/%m/%d %H:%M:%S")
-              print(dt_string)
-              val = (int(SAPID), sex, Age, dt_string)
-              cursor = mydb.cursor()
-              cursor.execute(Columns.sql, val)
-              mydb.commit()
+            for ids in sid:
+                print(ids)
+                if ids == (int(SAPID), ):
+                    try:
+                        dt_string = datetime.datetime.now().strftime(
+                            "%Y/%m/%d %H:%M:%S")
+                        val = (int(SAPID), sex, Age, dt_string, int(SAPID))
+                        cursor.execute(Columns.sql_update, val)
+                        mydb.commit()
+                        return flask.render_template(
+                            'site_2.html',
+                            Topnav=True,
+                            startseite=False,
+                            success="Daten überschrieben")
+                    except:
+                        return flask.render_template(
+                            'site_2.html',
+                            Topnav=True,
+                            startseite=False,
+                            error="Konnte nicht in Datenbank geschrieben werden"
+                        )
 
-              return flask.render_template('site_2.html',
-                                            Topnav=True,
-                                            startseite=False,
-                                            success="Eingabe erfolgreich")
+            #Insert the new data into the SQL Database
+            try:
+                dt_string = datetime.datetime.now().strftime(
+                    "%Y/%m/%d %H:%M:%S")
+                print(dt_string)
+                val = (int(SAPID), sex, Age, dt_string)
+                cursor = mydb.cursor()
+                cursor.execute(Columns.sql, val)
+                mydb.commit()
 
-          except Exception as e:
-              print(e)
-              #NotAllowed("Fehler", False)
-              return flask.render_template(
-                  'site_2.html',
-                  Topnav=True,
-                  startseite=False,
-                  error="Konnte nicht in Datenbank geschrieben werden")
-          #Merging both dataframes
+                return flask.render_template('site_2.html',
+                                             Topnav=True,
+                                             startseite=False,
+                                             success="Eingabe erfolgreich")
 
-      return flask.render_template('site_2.html',
-                                    Topnav=True,
-                                    startseite=False)
+            except Exception as e:
+                print(e)
+                #NotAllowed("Fehler", False)
+                return flask.render_template(
+                    'site_2.html',
+                    Topnav=True,
+                    startseite=False,
+                    error="Konnte nicht in Datenbank geschrieben werden")
+            #Merging both dataframes
 
-  #end of test for buttons
-  return flask.render_template('site_2.html', Topnav=True, startseite=False)
+        return flask.render_template('site_2.html',
+                                     Topnav=True,
+                                     startseite=False)
+
+    #end of test for buttons
+    return flask.render_template('site_2.html', Topnav=True, startseite=False)
 
 
 @app.route("/export")
@@ -474,4 +474,4 @@ def page_4():
 
 
 if __name__ == '__main__':
-      app.run(host='0.0.0.0', port=1025, debug=True)
+  app.run(host='0.0.0.0', port=8080, debug=True)
