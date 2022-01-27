@@ -1,22 +1,21 @@
-
-
-{% extends "base.html" %}
-{% block Unterschrift %}
+{% extends "base.html" %} {% block Unterschrift %}
 <p>Charite zu Berlin, 2010-2021</p>
-{%endblock%}
-{% block MainContent %}
+{%endblock%} {% block MainContent %}
 <h3> Datenausgabe</h3>
-<form action ="" method = "post" autocomplete="off">
-  <div class="row" style="border: 1px solid black; padding = 10p;" ;>
-    <div class="col-sm" style="border: 1px solid ,padding = 10p;" ;>
-      <h3>Stammdaten</h3>
-      <div class="form-group">
-        <label>SAP ID</label>
+<form action="" method="post" autocomplete="off">
+	<div class="row" style="border: 1px solid black; padding = 10p;" ;>
+		<div class="container">
+			<div class="row-cols-1 row-cols-lg-2"">
+				<div class="col-6" style="border: 1px solid ,padding = 10p;">
+          <div class="p-3 border bg-light shadow-sm overflow-auto" style="height:400px;">
+					<h3>Stammdaten</h3>
+					<div class="form-group">
+						<label>SAP ID</label>
         <input class="form-check-input" type="checkbox" id="sapcheck" name="sapcheck" value="1" onchange="showInputField('sapcheck','sapfield')">
         <span id="sapfield" class='hidden-on-default' style="display:none;">
         <input class="form-control" type="int" name="sapid" value="{%if success%}{{""}}{{ request.form.sapid }}{%endif%}">
         </span>
-      </div>
+           </div>
       <br>
       <div class="form-group">
         <label>Geburtsdatum</label>
@@ -45,6 +44,9 @@
       </div>
       <br>
     </div>
+    </div>
+			</div>
+      </div>
     <div class="overflow-auto col-sm" style="border: 1px solid black; height = 80%; width = 50%">
       <h3>Datenausgabe</h3>
       {%if htmltext%}{{htmltext}}
@@ -83,4 +85,3 @@
   <button class="btn btn-secondary" type="submit" name = "analysebutton">Analysieren</button>
 </form>
 {%endblock%}
-
