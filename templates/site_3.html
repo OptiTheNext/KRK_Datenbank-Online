@@ -6,7 +6,7 @@
 <h3>Datenausgabe</h3>
 <form action="" method="post" autocomplete="off">
   <div class="container" style="margin-left: 0">
-    <div class="row row-cols-1 row-cols-lg-2"">
+    <div class="row row-cols-1 row-cols-lg-2">
       <div class="col-6" style="border: 1px solid ,padding = 10px;">
         <div class="p-3 border bg-light shadow-sm overflow-auto" style="height:400px;">
           <h3>Stammdaten</h3>
@@ -50,16 +50,17 @@
         <h3>Datenausgabe</h3>
         {%if htmltext%}{{htmltext}}
         {%endif%}
-        {%if htmltext%}
-        <div class="form-group">
-          <input class="btn btn-primary" value="Exportieren" name="export" onclick="location.href='{{url_for('export_to_csv')}}';">
-        </div>
-        {%endif%}
+        
       </div>
     </div>
     <hr>
     <input class="btn btn-secondary" type="submit" value="Daten ausgeben" name = "datenausgabe">
     <input class="btn btn-secondary" type="reset">
+    {%if htmltext%}
+        <div class="form-group">
+          <input class="btn btn-primary" value="Exportieren" name="export" onclick="location.href='{{url_for('export_to_csv')}}';">
+        </div>
+    {%endif%}
   </div>
 </form>
 {% if error %}

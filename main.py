@@ -7,6 +7,8 @@ import os
 import pandas
 import numpy
 import matplotlib
+import requests
+
 
 #Debugging
 import traceback
@@ -361,26 +363,43 @@ def page_3():
                 if datum:
                     print("In Alt schleife")
                     try:
-
                         von = flask.request.form["von_geburt"]
                     except:
                         von = ""
-                    if von == "":
-                        von = 1900 - 1 - 1
+                    try:
+                        date = datetime.datetime.strptime(von,'%d.%m.%Y')
+                        date = datetime.datetime.strftime(date, "%Y-%m-%d")
+                        print(date)
+                        isadate = True
+                    except Exception as e:
+                        print(e)
+                        isadate = False
+                    if isadate == False:
+                        von = "1900 - 1 - 1"
                     else:
-                        von = von
+                        von = date
                     CheckSQL(False)
-                    sql += "Geburtsdatum > '" + von + "' "
+                    sql += "Geburtsdatum > '" + str(von) + "' "
                     try:
                         bis = flask.request.form["bis_geburt"]
                     except:
                         bis == ""
-                    if bis == "":
+                    try:
+                        date2 = datetime.datetime.strptime(bis,'%d.%m.%Y')
+                        date2 = datetime.datetime.strftime(date2, "%Y-%m-%d")
+                        print(bis)
+                        isadate2 = True
+                    except Exception as e:
+                        print("fehler bei date2")
+                        print(e)
+                        isadate2 = False
+                    if isadate == True:
                         bis = datetime.date.today().strftime("%Y-%m-%d")
                     else:
-                        bis = (bis)
+                        bis = date2
                     CheckSQL(False)
                     sql += "Geburtsdatum < '" + bis + "' "
+
 
                 print(sql)
                 cursor.execute(sql)
@@ -436,7 +455,7 @@ def page_3():
                     },
                 ],
                                           overwrite=False).to_html())
-            print(htmltext)
+            
 
             return flask.render_template('site_3.html',
                                          Topnav=True,
